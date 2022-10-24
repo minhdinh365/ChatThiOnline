@@ -35,14 +35,8 @@ mongoose
     });
 
     io.on("connection", (socket) => {
-      socket.on("add-new-cmt", (comment) => {
-        io.emit("get-new-cmt", comment);
-      });
-
-      socket.on("update-cmt", (comments) => {
-        var comment = comments.cmt;
-        var id_film = comments.id_film;
-        io.emit("get-update-cmt", { comment, id_film });
+      socket.on("add-new-message", (message) => {
+        io.emit("get-new-message", message);
       });
 
       socket.on("disconnect", () => {});

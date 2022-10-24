@@ -15,14 +15,18 @@ const schema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  fullname: {
+    type: String,
+    trim: true,
+  },
 });
 
 // foreign key
-schema.virtual("chat", {
+schema.virtual("chats", {
   ref: DATABASE_TABLE.CHAT_THI_ONLINE,
   localField: "uid",
   foreignField: "nguoidung",
-  justOne: true,
+  justOne: false,
 });
 
 schema.set("toObject", { virtuals: true });

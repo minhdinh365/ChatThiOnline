@@ -12,8 +12,8 @@ const counterModel = mongoose.model("counter", counterSchema);
 /**
  * Auto Increment id for model
  * This Function is used to increment counter in the database
- * This function will create a new table was used for count
- * @param {*} modelName The new table will be created
+ * This function will create the Counters model was used for count
+ * @param {*} modelName The new id will be added to modelName
  * @param {*} doc The information about the new records
  * @param {*} next the function to execute
  */

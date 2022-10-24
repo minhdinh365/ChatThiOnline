@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { DATABASE_TABLE } from "../constants.js";
-import autoIncrementModelID from "./GeneratedId.js";
+import autoIncrementModelID from "../utils/GeneratedId.js";
 
 /**
  * Defines the ChatThiOnline model
@@ -18,10 +18,8 @@ const schema = mongoose.Schema(
       require: true,
     },
     nguoidung: {
-      type: String,
+      type: Number,
       ref: DATABASE_TABLE.INFORMATION,
-      trim: true,
-      require: true,
     },
     noidung: {
       type: String,

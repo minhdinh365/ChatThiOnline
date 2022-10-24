@@ -1,49 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export default function Modal() {
+export default function Modal({ isOpen }) {
+  const [isOpenModal, setIsOpenModal] = useState(isOpen);
+
+  useEffect(() => {
+    setIsOpenModal(isOpen);
+  }, [isOpen]);
+
+  const closeModal = () => {
+    setIsOpenModal((pre) => !pre);
+  };
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-primary"
-        data-mdb-toggle="modal"
-        data-mdb-target="#exampleModal"
-      >
-        Launch demo modal
-      </button>
-
       <div
-        className="modal fade"
+        className={isOpen ? "modal fade show" : "modal fade"}
         id="exampleModal"
         tabIndex="-1"
+        role="dialog"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
+        style={{ display: "block", backgroundColor: "rgb(0,0,0,0.5)" }}
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Modal title
+                Some className is already existed
               </h5>
               <button
                 type="button"
-                className="btn-close"
-                data-mdb-dismiss="modal"
+                className="close"
+                data-dismiss="modal"
                 aria-label="Close"
-              ></button>
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div className="modal-body">...</div>
+            <div className="modal-body"></div>
             <div className="modal-footer">
               <button
+                onClick={closeModal}
                 type="button"
-                className="btn btn-secondary"
-                data-mdb-dismiss="modal"
+                className="btn btn-warning"
+                data-dismiss="modal"
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
-              </button>
+              <a type="button" className="btn btn-danger" href="/classNamees">
+                Go to list className
+              </a>
             </div>
           </div>
         </div>

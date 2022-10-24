@@ -1,19 +1,24 @@
-import { RESPONSE_MESSAGE } from "../constants.js";
+import { PAGINATION, RESPONSE_MESSAGE } from "../constants.js";
 import { ChatThiOnline } from "../model/ChatThiOnline.js";
+import { Information } from "../model/Information.js";
 
 export const createChat = async (req, res) => {
   try {
     const newChat = new ChatThiOnline({
-      nguoidung: req.body.nguoidung,
+      nguoidung: Number(req.body.nguoidung),
       noidung: req.body.noidung,
-      box: req.body.box,
+      box: Number(req.body.box),
+      time: new Date(new Date().toString()),
     });
 
-    await newChat
-      .save()
-      .then((data) =>
-        res.status(200).json({ status: RESPONSE_MESSAGE.SUCCESS })
-      );
+    await newChat.save().then(async (data) => {
+      const info = await Information.findOne({ uid: data.nguoidung });
+      console.log(info);
+      return res.status(200).json({
+        status: RESPONSE_MESSAGE.SUCCESS,
+        message: { ...data, info },
+      });
+    });
   } catch (err) {
     return res
       .status(500)
@@ -22,7 +27,11 @@ export const createChat = async (req, res) => {
 };
 
 export const getChatOfBox = async (req, res) => {
+  const page = Number(req.query.page);
   return await ChatThiOnline.find({ box: Number(req.params.box) })
+    .skip(PAGINATION * page - PAGINATION)
+    .limit(PAGINATION)
+    .populate({ path: "info", model: Information })
     .then((data) =>
       res.status(200).json({ status: RESPONSE_MESSAGE.SUCCESS, message: data })
     )

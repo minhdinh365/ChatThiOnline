@@ -76,9 +76,15 @@
 
 #main {
   background-color: #eee;
+  height: 100vh;
 }
 #chat1 {
   border-radius: 15px;
+}
+.card span {
+  background-color: whitesmoke;
+  justify-content: center;
+  display: flex;
 }
 .card-body {
   max-height: 500px;

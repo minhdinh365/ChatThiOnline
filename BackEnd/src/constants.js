@@ -7,3 +7,5 @@ export const RESPONSE_MESSAGE = {
   SUCCESS: "success",
   ERROR: "error",
 };
+
+export const PAGINATION = 5;
