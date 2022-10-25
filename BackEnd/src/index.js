@@ -36,6 +36,7 @@ mongoose
 
     io.on("connection", (socket) => {
       socket.on("add-new-message", (message) => {
+        console.log(message);
         io.emit("get-new-message", message);
       });
 
