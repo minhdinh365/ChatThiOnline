@@ -43,7 +43,21 @@ export const getChatOfBox = async (req, res) => {
 };
 
 export const getChats = async (box, page) => {
-  return await ChatThiOnline.find({ box: Number(box) })
+  const date = new Date(Date.now());
+  console.log("vo", date.getYear(), date.getMonth() + 1, date.getDate());
+  return await ChatThiOnline.find({
+    box: Number(box),
+    time: {
+      $gte: new Date(
+        date.getYear(),
+        date.getMonth() + 1,
+        date.getDate(),
+        0,
+        0,
+        0
+      ),
+    },
+  })
     .sort({ uid: -1 })
     // .skip(PAGINATION * page - PAGINATION)
     // .limit(PAGINATION)

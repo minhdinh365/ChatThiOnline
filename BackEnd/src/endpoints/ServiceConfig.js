@@ -23,7 +23,6 @@ export const ViewService = (app) => {
       root: path.resolve(path.dirname("")),
     };
 
-    console.log(path.resolve());
     var fileName = "src/index.html";
 
     res.sendFile(fileName, options, function (err) {
@@ -31,7 +30,7 @@ export const ViewService = (app) => {
         console.log(err);
         // next(err);
       } else {
-        console.log("Sent:", fileName);
+        console.info("Sent:", fileName);
       }
     });
   });

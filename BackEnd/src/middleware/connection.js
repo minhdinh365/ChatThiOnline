@@ -53,6 +53,7 @@ export const mongooseConnection = (app) => {
             }
 
             const listMessage = await getChats(box, page);
+            listMessage.sort((a, b) => a.uid - b.uid);
 
             io.emit("get-list-message", {
               room: room,
