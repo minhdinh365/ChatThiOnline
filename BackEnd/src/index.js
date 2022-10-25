@@ -37,7 +37,7 @@ mongoose
     });
 
     io.on("connection", (socket) => {
-
+      //Các message gửi đi đển đính kèm Msv và box nhé
       //Lây ra phòng chat của User
       socket.on("join-room", (message) => {
         try {
@@ -58,7 +58,7 @@ mongoose
           //Nêu không thì tạo room mới cho sinh viên lưu 
           //trả về data null kèm thông báo ko tồn tại phòng 
 
-          io.emit("get-new-message", message);
+          io.emit("get-all-message", message);
         } catch (error) {
 
         }
@@ -70,8 +70,11 @@ mongoose
         let msv = message.msv;
         let box = message.box;
         let messager = message.messager;
-        //Thêm vào bảng tin nhắn nhớ log thòi gian 
+        //Thêm vào bảng tin nhắn nhớ log thòi gian
+        //Check Tìm Phong Của thông qua box mình đưa xuỗng tim sang bảng Room đk Room=Box and Uid=MSV Để kiểm tra msv có quyền xóa hay ko ?
 
+        //Nếu xóa đc  trả về true 
+        //Nêu ko trả về Fase
         console.log(message);
 
 
@@ -79,16 +82,10 @@ mongoose
       });
 
       //Dùng để bắt use gửi tin nhắn xuỗng
-      socket.on("add-new-message", (message) => {
+      socket.on("remove-message", (message) => {
         let msv = message.msv;
         let box = message.box;
-        let messager = message.messager;
-        //Thêm vào bảng tin nhắn nhớ log thòi gian 
-
-        console.log(message);
-
-
-        io.emit("get-new-message", message);
+        io.emit("remove-notify", message);
       });
 
       socket.on("disconnect", () => { });
