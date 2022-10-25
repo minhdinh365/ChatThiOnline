@@ -45,6 +45,7 @@ export const mongooseConnection = (app) => {
               io.emit("get-list-message", {
                 room: null,
                 chats: null,
+                msv: msv,
                 message: RESPONSE_MESSAGE.ROOM_INVALID,
               });
 
@@ -56,6 +57,7 @@ export const mongooseConnection = (app) => {
             io.emit("get-list-message", {
               room: room,
               chats: listMessage,
+              msv: msv,
               message: RESPONSE_MESSAGE.SUCCESS,
             });
           } catch (error) {}

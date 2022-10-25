@@ -201,7 +201,9 @@
 <script>
     $(document).ready(function () {
         // Send Messager 
-
+        const searchParams = new URLSearchParams(window.location.search)
+        const box = Number(searchParams.get('box'))
+        const msv = Number(searchParams.get('msv'))
 
         $.fn.pressEnter = function (fn) {
 
@@ -219,8 +221,8 @@
         $('textarea').pressEnter(function (e) {
             socket.emit("add-new-message", {
                 messager: $('#textAreaSend').val(),
-                msv: 1,
-                box: 1,
+                msv: msv,
+                box: box,
             })
 
             e.target.value ='';
@@ -232,40 +234,9 @@
 
 <script>
     const socket = io("http://localhost:5000/");
-    let id = "";
-    function getid(e) {
-        $("#use").html(e);
-        $("#frbody").empty();
-        socket.emit("JOINROM", e);
-    }
-
-    socket.on("message", function (mes) {
-        console.log(mes)
-        $("#frmbody").show();
-    });
-    socket.on("success", function (mes) {
-        alert(mes);
-        $("#frmregister").hide();
-        $("#frmbody").show();
-    });
-    socket.on("broadcast", function (mes) {
-        $("#list").empty();
-        $.each(mes, function (k, v) {
-            let use = `<a  onclick="getid(this.id)" id="${v}" class="list-group-item list-group-item-action"
-                  >${v}</a
-                >`;
-            $("#list").append(use);
-        });
-    });
-    socket.on("Fail", function (mes) {
-        alert(mes);
-    });
-    socket.on("SEND_MESSAGE", function (mes) {
-        $("#frbody").append(`<p> ${mes} </p>`);
-    });
-
-    let box = 1;
-    let  msv = 1;
+    const searchParams = new URLSearchParams(window.location.search)
+    const box = Number(searchParams.get('box'))
+    const msv = Number(searchParams.get('msv'))
 
     function renderMessage(message, info, msv) {
         if(message.nguoidung === msv) {
@@ -294,10 +265,10 @@
     }
 
     $(document).ready(function () {
-        socket.emit("join-room", Room = { msv: 1, box: 1, page: 1 });
+        socket.emit("join-room", Room = { msv: msv, box: box, page: 1 });
 
         socket.on("get-list-message", function (mes) {
-            if(mes && mes.room && box === mes.room.box) {
+            if(mes && mes.room && box === mes.room.box && mes.msv === msv) {
                 mes.chats.map(item => renderMessage(item, item.info, msv))
             }
 
