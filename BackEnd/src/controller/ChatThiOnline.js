@@ -45,8 +45,8 @@ export const getChatOfBox = async (req, res) => {
 export const getChats = async (box, page) => {
   return await ChatThiOnline.find({ box: Number(box) })
     .sort({ uid: -1 })
-    .skip(PAGINATION * page - PAGINATION)
-    .limit(PAGINATION)
+    // .skip(PAGINATION * page - PAGINATION)
+    // .limit(PAGINATION)
     .populate({ path: "info", model: Information });
 };
 

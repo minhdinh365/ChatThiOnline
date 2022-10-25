@@ -207,6 +207,7 @@
 
         //use it:
         $('textarea').pressEnter(function (e) {
+            if(!$('#textAreaSend').val()) {
             socket.emit("add-new-message", {
                 messager: $('#textAreaSend').val(),
                 msv: msv,
@@ -214,6 +215,7 @@
             })
 
             e.target.value ='';
+            }
         })
     })
 </script>
@@ -268,8 +270,7 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].type.indexOf('image') !== -1) {
                 var file = items[i].getAsFile()
-console.log(getBase64(file));
-                
+
                 $("#textAreaSend").val(`<img src="${getBase64(file)}" />`)
                 }
             }
