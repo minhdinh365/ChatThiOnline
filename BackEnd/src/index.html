@@ -147,15 +147,91 @@
         #chat1 .form-outline .form-control~.form-label {
             color: #bfbfbf;
         }
-    </style>
+
+        .content-message-right div div {
+            border-radius: 10px; 
+            background-color: #fbfbfb;
+            padding: 7px 15px;
+            border: 1px solid rgb(223, 223, 223);
+        }
+
+        .content-message-left div > img,
+        .content-message-right div > img{
+            max-width: 300px;
+            min-width: 100px;
+        }
+
+        .content-message-left > div {
+            border-radius: 10px; 
+            background-color: rgba(57, 192, 237,.2);
+            border: none;
+            padding: 7px 15px;
+            max-width: 350px;
+        }
+
+        div:has(.content-message-right):has(img) {
+            border-radius: none !important; 
+            background-color: none !important;
+            border: none;
+        }
+
+        div:has(.content-message-left):has(img) {
+            border-radius: none !important; 
+            background-color: none !important;
+            border: none;
+        }
+
+        .text-area-message{
+            border: 1px solid #eee !important;
+            padding: 5px !important;
+            border-radius: 3px !important;
+            width: 95%;
+            height: 95%;
+            margin: auto;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            outline: none;
+        }
+        .form-outline{
+            box-shadow: 2px 0 3px #eee;
+            display: flex;
+            justify-content: center;
+        }
+        .container{
+            height: 100vh;
+            margin: auto;
+        }
+        .card-body{
+            background-color: #f7f7f7;
+            overflow-x: hidden;
+        }
+
+        /* scroll */
+        ::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #ccc; 
+  border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+</style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <section style="background-color: #eee;">
-        <div class="container py-5">
+        <div class="container">
             <div class="row d-flex justify-content-center">
-                <div class="col-md-8 col-lg-6 col-xl-4">
+                <div class="col-md-8 col-lg-6 col-xl-4  mt-2">
 
                     <div class="card" id="chat1" style="border-radius: 15px;">
                         <div class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
@@ -164,17 +240,15 @@
                             <p class="mb-0 fw-bold">Live chat</p>
                             <i class="fas fa-times"></i>
                         </div>
-                        <div class="card-body" id="frmMessager">
+                        <div class="card-body" id="frmMessager" style="height: 470px; overflow-y: auto;">
                         </div>
                         <div class="form-outline">
-                            <div class="container1">
+                            <!-- <div class="container1">
                                 <div class="content1">
                                     <div id="whatever"></div>
                                 </div>
-                            </div>
-                            <textarea class="form-control" id="textAreaSend" contenteditable='true' rows="4"></textarea>
-
-                            <label class="form-label" for="textAreaSend">Type your message</label>
+                            </div> -->
+                            <textarea class="text-area-message" placeholder="Type your message" id="textAreaSend" contenteditable='true' rows="4"></textarea>
                         </div>
 
                     </div>
@@ -186,7 +260,65 @@
 
 </html>
 
+<script src="http://localhost:5000/socket.io/socket.io.js"></script>
+
 <script>
+
+
+    const socket = io("http://localhost:5000/");
+    const searchParams = new URLSearchParams(window.location.search)
+    const box = Number(searchParams.get('box'))
+    const msv = Number(searchParams.get('msv'))
+
+    function renderMessage(message, info, msv) {
+        if(message.nguoidung === msv) {
+            $("#frmMessager").append(`
+            <div class="d-flex flex-row justify-content-end mb-4">
+                <div class="me-3 content-message-right">
+                    <div class="small mb-0" id="content-${message.uid}"></div>
+                </div>
+                <img src=${info.image} alt="avatar 1" style="width: 50px; height: 50px;object-fit:cover;border-radius:50%">
+            </div>
+            `)
+        } else {
+            $("#frmMessager").append(`
+                <div class="d-flex flex-row justify-content-start mb-4">
+                    <img src=${info.image}
+                        alt="avatar 1" style="width: 50px; height: 50px;object-fit:cover;border-radius:50%">
+                    <div class=" ms-3 content-message-left">
+                        <div class="small mb-0" id="content-${message.uid}"></div>
+                    </div>
+                </div>
+            `)
+        }
+
+        $(`#content-${message.uid}`).html(message.noidung)
+    }
+
+    let image = '';
+
+    $("#textAreaSend").on('paste', function(e){
+        e.preventDefault();
+        var data = e.originalEvent;
+        if (data.clipboardData && data.clipboardData.items) {
+            var items = data.clipboardData.items;
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    var file = items[i].getAsFile()
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function () {
+                        image += "\n" + `<img src="${reader.result}"/>`;
+                    };
+                }
+            }
+        }
+    })
+
+    var x = document.getElementsByClassName("content-message")
+    console.log(x);
+
     $(document).ready(function () {
         // Send Messager 
         const searchParams = new URLSearchParams(window.location.search)
@@ -207,74 +339,25 @@
 
         //use it:
         $('textarea').pressEnter(function (e) {
-            if(!$('#textAreaSend').val()) {
-            socket.emit("add-new-message", {
-                messager: $('#textAreaSend').val(),
-                msv: msv,
-                box: box,
-            })
+            // if(!$('#textAreaSend').val()) {
+                
+                socket.emit("add-new-message", {
+                    messager: `<div class= "content-message">${$('#textAreaSend').val()}</div>`,
+                    msv: msv,
+                    box: box,
+                })
 
-            e.target.value ='';
-            }
-        })
-    })
-</script>
-
-<script src="http://localhost:5000/socket.io/socket.io.js"></script>
-
-<script>
-    const socket = io("http://localhost:5000/");
-    const searchParams = new URLSearchParams(window.location.search)
-    const box = Number(searchParams.get('box'))
-    const msv = Number(searchParams.get('msv'))
-
-    function renderMessage(message, info, msv) {
-        if(message.nguoidung === msv) {
-            $("#frmMessager").append(`
-            <div class="d-flex flex-row justify-content-end mb-4">
-                <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
-                    <div class="small mb-0" id="content-${message.uid}" ></div>
-                </div>
-                <img src=${info.image} alt="avatar 1" style="width: 45px; height: 100%;">
-            </div>
-            `)
-        } else {
-            $("#frmMessager").append(`
-                <div class="d-flex flex-row justify-content-start mb-4">
-                    <img src=${info.image}
-                        alt="avatar 1" style="width: 45px; height: 100%;">
-                    <div class="p-3 ms-3"
-                        style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
-                        <div class="small mb-0" id="content-${message.uid}"></div>
-                    </div>
-                </div>
-            `)
-        }
-
-        $(`#content-${message.uid}`).html(message.noidung)
-    }
-
-    function getBase64(file) {
-        var reader = new FileReader();
-        return reader.readAsDataURL(file);
-        reader.onload = function () {
-            return reader.result;
-        };
-    }
-
-
-    $("#textAreaSend").on('paste', function(e){
-        var data = e.originalEvent;
-        if (data.clipboardData && data.clipboardData.items) {
-            var items = data.clipboardData.items;
-            for (var i = 0; i < items.length; i++) {
-                if (items[i].type.indexOf('image') !== -1) {
-                var file = items[i].getAsFile()
-
-                $("#textAreaSend").val(`<img src="${getBase64(file)}" />`)
+                if(image) {
+                    socket.emit("add-new-message", {
+                        messager: image,
+                        msv: msv,
+                        box: box,
+                    })
                 }
-            }
-        }
+
+                e.target.value ='';
+            // }
+        })
     })
 
     $(document).ready(function () {
@@ -305,58 +388,4 @@
             );
         });
     });
-</script>
-
-<script>
-    var input = document.getElementsByTagName("textarea")[0];
-    input.addEventListener('paste', pasteHandler);
-    var whatever = document.getElementById('whatever');
-    /*Handle paste event*/
-    function pasteHandler(e) {    //e:  ClipboardEvent
-        //check if event.clipboardData is supported(chrome)
-        if (e.clipboardData) {
-            var items = e.clipboardData.items;
-            if (items) {
-                for (var i = 0; i < items.length; i++) {
-                    //                    console.log(items[i]);
-                    if (items[i].kind == 'file' && items[i].type.indexOf('image') > -1) {
-                        //need to represent the image as a file
-                        var blob = items[i].getAsFile();
-
-                        var reader = new FileReader();
-                        //need base64 to upload to server
-                        reader.readAsDataURL(blob);
-                        reader.onload = function (event) {
-                            var image = new Image();
-                            image.src = event.target.result;
-                            image.width = 50; // a fake resize
-                            whatever.appendChild(image);
-                            // uploadFile(blob);
-                        };
-                    }
-                }
-            }
-        }
-    };
-
-    var uploadFile = function (file) {
-        var formData = new FormData();
-        formData.append('upload_file', file);
-
-        // now post a new XHR request
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/upload/attachments');
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
-                if (xhr.status == 200) {
-                    console.log('uploaded done!');
-                } else {
-                    alert("error: " + xhr.responseText); // handle response.
-                }
-            }
-        };
-
-        xhr.send(formData);
-    };
 </script>
