@@ -152,14 +152,8 @@
 </head>
 
 <body>
-
-
-
-
-
     <section style="background-color: #eee;">
         <div class="container py-5">
-
             <div class="row d-flex justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-4">
 
@@ -171,18 +165,14 @@
                             <i class="fas fa-times"></i>
                         </div>
                         <div class="card-body" id="frmMessager">
-
                         </div>
                         <div class="form-outline">
                             <div class="container1">
                                 <div class="content1">
                                     <div id="whatever"></div>
-
                                 </div>
                             </div>
-
                             <textarea class="form-control" id="textAreaSend" contenteditable='true' rows="4"></textarea>
-
 
                             <label class="form-label" for="textAreaSend">Type your message</label>
                         </div>
@@ -192,8 +182,6 @@
 
             </div>
     </section>
-
-
 </body>
 
 </html>
@@ -263,6 +251,30 @@
 
         $(`#content-${message.uid}`).html(message.noidung)
     }
+
+    function getBase64(file) {
+        var reader = new FileReader();
+        return reader.readAsDataURL(file);
+        reader.onload = function () {
+            return reader.result;
+        };
+    }
+
+
+    $("#textAreaSend").on('paste', function(e){
+        var data = e.originalEvent;
+        if (data.clipboardData && data.clipboardData.items) {
+            var items = data.clipboardData.items;
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                var file = items[i].getAsFile()
+console.log(getBase64(file));
+                
+                $("#textAreaSend").val(`<img src="${getBase64(file)}" />`)
+                }
+            }
+        }
+    })
 
     $(document).ready(function () {
         socket.emit("join-room", Room = { msv: msv, box: box, page: 1 });
