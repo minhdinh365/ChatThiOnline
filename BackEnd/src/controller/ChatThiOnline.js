@@ -13,7 +13,6 @@ export const createChat = async (req, res) => {
 
     await newChat.save().then(async (data) => {
       const info = await Information.findOne({ uid: data.nguoidung });
-      console.log(info);
       return res.status(200).json({
         status: RESPONSE_MESSAGE.SUCCESS,
         message: { ...data, info },
@@ -29,6 +28,7 @@ export const createChat = async (req, res) => {
 export const getChatOfBox = async (req, res) => {
   const page = Number(req.query.page);
   return await ChatThiOnline.find({ box: Number(req.params.box) })
+    .sort({ uid: 1 })
     .skip(PAGINATION * page - PAGINATION)
     .limit(PAGINATION)
     .populate({ path: "info", model: Information })

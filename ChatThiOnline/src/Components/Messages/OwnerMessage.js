@@ -5,7 +5,10 @@ export default function OwnerMessage({ message }) {
     <>
       <div className="d-flex flex-row justify-content-end mb-4">
         <div className="p-3 me-3 border">
-          <p className="small mb-0">{message.noidung}</p>
+          <div
+            className="small mb-0"
+            dangerouslySetInnerHTML={{ __html: message.noidung }}
+          ></div>
         </div>
         <img src={message.info.image} alt="avatar 1" />
       </div>
