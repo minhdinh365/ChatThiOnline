@@ -42,7 +42,7 @@ export const mongooseConnection = (app) => {
 
             const room = await getRoom(box);
             if (!room) {
-              io.emit("get-new-message", {
+              io.emit("get-list-message", {
                 room: null,
                 chats: null,
                 message: RESPONSE_MESSAGE.ROOM_INVALID,
@@ -51,36 +51,31 @@ export const mongooseConnection = (app) => {
               return;
             }
 
-            const isTeacher = msv === room.maGV;
-
             const listMessage = await getChats(box, page);
 
-            //Tạo dùm mình thêm môt bàng Room (bên khách tự thêm mình chị tạo bảng cho nta thôi) bên trong đó có Uid (mãGv) và Box mục đich mình sẽ kiểm tra msv truyền xuống có phải là Giams thị coi thi hay không
-            // để mình phân biệt user này có quyền xóa tin nhắn
-
-            //Check Tìm Phong Của thông qua box mình đưa xuỗng tim sang bảng Room đk Room=Box mình đưa xuống
-            //nếu có mode gom msv ,messager,tên phân biệt giảng viên dùm mình và trả ra dùm mình luôn msv connect vào phong này có là GV ko
-            //
-            //Trà về data tin nhắn  của phòng chỗ này bạn lấy tin nhắn trong ngày hiện lại đc rồi nhớ  giới hạng data nha dung lazy của bạn ấy   đó Cấu trúc model trả ra  {uid,time,nguoidung,noidung}
-
-            //Nêu không thì tạo room mới cho sinh viên lưu
-            //trả về data null kèm thông báo ko tồn tại phòng
-            io.emit("get-new-message", {
+            io.emit("get-list-message", {
               room: room,
               chats: listMessage,
-              message: RESPONSE_MESSAGE.ROOM_INVALID,
+              message: RESPONSE_MESSAGE.SUCCESS,
             });
           } catch (error) {}
         });
 
         //Dùng để bắt use gửi tin nhắn xuỗng
         socket.on("add-new-message", async (message) => {
+          console.log(message);
           const msv = message.msv;
           const box = message.box;
           const messager = message.messager;
           //Thêm vào bảng tin nhắn nhớ log thòi gian
-          if (await addChat({ nguoidung: msv, box, noidung: messager })) {
-            io.emit("get-new-message", message);
+          const newMessage = await addChat({
+            nguoidung: msv,
+            box,
+            noidung: messager,
+          });
+
+          if (newMessage) {
+            io.emit("get-new-message", newMessage);
 
             return;
           }

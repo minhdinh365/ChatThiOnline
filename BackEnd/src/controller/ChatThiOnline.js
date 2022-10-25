@@ -59,11 +59,11 @@ export const addChat = async (message) => {
       time: new Date(new Date().toString()),
     });
 
-    await newChat.save().then(async (data) => {
+    return await newChat.save().then(async (data) => {
       const info = await Information.findOne({ uid: data.nguoidung });
-      return { ...data, info };
+      return { data: await data._doc, info };
     });
   } catch (err) {
-    return { message };
+    return undefined;
   }
 };
