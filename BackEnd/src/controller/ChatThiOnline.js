@@ -41,3 +41,29 @@ export const getChatOfBox = async (req, res) => {
         .json({ status: RESPONSE_MESSAGE.ERROR, message: err.message })
     );
 };
+
+export const getChats = async (box, page) => {
+  return await ChatThiOnline.find({ box: Number(box) })
+    .sort({ uid: 1 })
+    .skip(PAGINATION * page - PAGINATION)
+    .limit(PAGINATION)
+    .populate({ path: "info", model: Information });
+};
+
+export const addChat = async (message) => {
+  try {
+    const newChat = new ChatThiOnline({
+      nguoidung: Number(message.nguoidung),
+      noidung: message.noidung,
+      box: Number(message.box),
+      time: new Date(new Date().toString()),
+    });
+
+    await newChat.save().then(async (data) => {
+      const info = await Information.findOne({ uid: data.nguoidung });
+      return { ...data, info };
+    });
+  } catch (err) {
+    return { message };
+  }
+};

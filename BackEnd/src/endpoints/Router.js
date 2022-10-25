@@ -6,7 +6,7 @@ import express from "express";
  * @param {express} app
  * @returns {express} updatedService
  */
-export const routerService = (app) => {
+export const RouterService = (app) => {
   app.use("/", ChatThiOnline);
 
   return { updatedService: app };

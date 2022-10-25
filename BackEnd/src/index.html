@@ -224,7 +224,7 @@
                                 </div>
                             </div>
 
-                            <textarea class="form-control" id="textAreaSend" rows="4"></textarea>
+                            <textarea class="form-control" id="textAreaSend" contenteditable='true' rows="4"></textarea>
 
 
                             <label class="form-label" for="textAreaSend">Type your message</label>
@@ -260,9 +260,11 @@
 
         //use it:
         $('textarea').pressEnter(function () {
-
-
-
+            socket.emit("add-new-message", {
+                messager: "",
+                msv: 0,
+                box: 0,
+            })
         })
     })
 </script>
@@ -303,20 +305,7 @@
         $("#frbody").append(`<p> ${mes} </p>`);
     });
     $(document).ready(function () {
-        //   $("#frmbody").hide();
-
-        socket.on("success", function (mes) {
-            alert(mes);
-
-        });
-
-
-        socket.on("success", function (mes) {
-            alert(mes);
-
-        });
-
-        socket.emit("join-room", Room = { msv: 1, box: 1 });
+        socket.emit("join-room", Room = { msv: 1, box: 1, page: 1 });
 
         socket.on("get-new-message", function (mes) {
             console.log(mes)
