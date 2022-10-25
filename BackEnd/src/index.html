@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="theme-color" content="#33b5e5">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+
+
+    <link rel="stylesheet"
+        href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/core.min.css">
+
+
+    <link rel='stylesheet' id='roboto-subset.css-css'
+        href='https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/mdb5/fonts/roboto-subset.css?ver=3.9.0-update.5'
+        type='text/css' media='all' />
+
+
+    <meta charset="utf-8">
+    <title>Bootstrap Chat - free examples, templates &amp; tutorial</title>
+
+    <meta name="description"
+        content="Responsive Chat built with Bootstrap 5. Many variants of chatbox UI, mobile app, messages box, chat window, chatbot UI, group chat, chat widget, web chat &amp; more">
+    <meta name="image" content="https://mdbcdn.b-cdn.net/docs/standard/extended/chat/assets/featured.jpg">
+
+    <meta itemprop="name" content="Bootstrap Chat - free examples, templates &amp; tutorial">
+    <meta itemprop="description"
+        content="Responsive Chat built with Bootstrap 5. Many variants of chatbox UI, mobile app, messages box, chat window, chatbot UI, group chat, chat widget, web chat &amp; more">
+    <meta itemprop="image" content="https://mdbcdn.b-cdn.net/docs/standard/extended/chat/assets/featured.jpg">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Bootstrap Chat - free examples, templates &amp; tutorial">
+    <meta property="twitter:description"
+        content="Responsive Chat built with Bootstrap 5. Many variants of chatbox UI, mobile app, messages box, chat window, chatbot UI, group chat, chat widget, web chat &amp; more">
+    <meta property="twitter:site" content="@MDBootstrap">
+    <meta property="twitter:creator" content="@MDBootstrap">
+    <meta property="twitter:image:src"
+        content="https://mdbcdn.b-cdn.net/docs/standard/extended/chat/assets/featured.jpg">
+    <meta property="twitter:player" content="">
+
+    <meta property="og:title" content="Bootstrap Chat - free examples, templates &amp; tutorial">
+    <meta property="og:description"
+        content="Responsive Chat built with Bootstrap 5. Many variants of chatbox UI, mobile app, messages box, chat window, chatbot UI, group chat, chat widget, web chat &amp; more">
+    <meta property="og:image" content="https://mdbcdn.b-cdn.net/docs/standard/extended/chat/assets/featured.jpg">
+    <meta property="og:url" content="https://mdbootstrap.com/docs/standard/extended/chat/">
+    <meta property="og:site_name" content="MDB - Material Design for Bootstrap">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:video" content="">
+    <meta property="fb:admins" content="443467622524287">
+    <meta property="og:type" content="website">
+
+    <link rel="shortcut icon" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/favicon.ico" />
+
+    <link rel="canonical" href="https://mdbootstrap.com/docs/standard/extended/chat/" />
+
+
+    <style>
+        .container1 {
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .content1 {
+            text-align: center;
+            display: inline-block;
+        }
+
+        #chat1 .form-outline .form-control~.form-notch div {
+            pointer-events: none;
+            border: 1px solid;
+            border-color: #eee;
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        #chat1 .form-outline .form-control~.form-notch .form-notch-leading {
+            left: 0;
+            top: 0;
+            height: 100%;
+            border-right: none;
+            border-radius: .65rem 0 0 .65rem;
+        }
+
+        #chat1 .form-outline .form-control~.form-notch .form-notch-middle {
+            flex: 0 0 auto;
+            max-width: calc(100% - 1rem);
+            height: 100%;
+            border-right: none;
+            border-left: none;
+        }
+
+        #chat1 .form-outline .form-control~.form-notch .form-notch-trailing {
+            flex-grow: 1;
+            height: 100%;
+            border-left: none;
+            border-radius: 0 .65rem .65rem 0;
+        }
+
+        #chat1 .form-outline .form-control:focus~.form-notch .form-notch-leading {
+            border-top: 0.125rem solid #39c0ed;
+            border-bottom: 0.125rem solid #39c0ed;
+            border-left: 0.125rem solid #39c0ed;
+        }
+
+        #chat1 .form-outline .form-control:focus~.form-notch .form-notch-leading,
+        #chat1 .form-outline .form-control.active~.form-notch .form-notch-leading {
+            border-right: none;
+            transition: all 0.2s linear;
+        }
+
+        #chat1 .form-outline .form-control:focus~.form-notch .form-notch-middle {
+            border-bottom: 0.125rem solid;
+            border-color: #39c0ed;
+        }
+
+        #chat1 .form-outline .form-control:focus~.form-notch .form-notch-middle,
+        #chat1 .form-outline .form-control.active~.form-notch .form-notch-middle {
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            transition: all 0.2s linear;
+        }
+
+        #chat1 .form-outline .form-control:focus~.form-notch .form-notch-trailing {
+            border-top: 0.125rem solid #39c0ed;
+            border-bottom: 0.125rem solid #39c0ed;
+            border-right: 0.125rem solid #39c0ed;
+        }
+
+        #chat1 .form-outline .form-control:focus~.form-notch .form-notch-trailing,
+        #chat1 .form-outline .form-control.active~.form-notch .form-notch-trailing {
+            border-left: none;
+            transition: all 0.2s linear;
+        }
+
+        #chat1 .form-outline .form-control:focus~.form-label {
+            color: #39c0ed;
+        }
+
+        #chat1 .form-outline .form-control~.form-label {
+            color: #bfbfbf;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+
+
+
+
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-4">
+
+                    <div class="card" id="chat1" style="border-radius: 15px;">
+                        <div class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
+                            style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                            <i class="fas fa-angle-left"></i>
+                            <p class="mb-0 fw-bold">Live chat</p>
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div class="card-body" id="frmMessager">
+
+                            <div class="d-flex flex-row justify-content-start mb-4">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                                    alt="avatar 1" style="width: 45px; height: 100%;">
+                                <div class="p-3 ms-3"
+                                    style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                    <p class="small mb-0">Hello and thank you for visiting MDBootstrap. Please click the
+                                        video
+                                        below.</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-row justify-content-end mb-4">
+                                <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+                                    <p class="small mb-0">Thank you, I really like your product.</p>
+                                </div>
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"
+                                    alt="avatar 1" style="width: 45px; height: 100%;">
+                            </div>
+
+                            <div class="d-flex flex-row justify-content-start mb-4">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                                    alt="avatar 1" style="width: 45px; height: 100%;">
+                                <div class="ms-3" style="border-radius: 15px;">
+                                    <div class="bg-image">
+                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/screenshot1.webp"
+                                            style="border-radius: 15px;" alt="video">
+                                        <a href="#!">
+                                            <div class="mask"></div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-row justify-content-start mb-4">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                                    alt="avatar 1" style="width: 45px; height: 100%;">
+                                <div class="p-3 ms-3"
+                                    style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                    <p class="small mb-0">...</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="form-outline">
+                            <div class="container1">
+                                <div class="content1">
+                                    <div id="whatever"></div>
+
+                                </div>
+                            </div>
+
+                            <textarea class="form-control" id="textAreaSend" rows="4"></textarea>
+
+
+                            <label class="form-label" for="textAreaSend">Type your message</label>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+    </section>
+
+
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function () {
+        // Send Messager 
+
+
+        $.fn.pressEnter = function (fn) {
+
+            return this.each(function () {
+                $(this).bind('enterPress', fn);
+                $(this).keyup(function (e) {
+                    if (e.keyCode == 13) {
+                        $(this).trigger("enterPress");
+                    }
+                })
+            });
+        };
+
+        //use it:
+        $('textarea').pressEnter(function () {
+
+
+
+        })
+    })
+</script>
+
+<script src="http://localhost:5000/socket.io/socket.io.js"></script>
+
+<script>
+    const socket = io("http://localhost:5000/");
+    let id = "";
+    function getid(e) {
+        $("#use").html(e);
+        $("#frbody").empty();
+        socket.emit("JOINROM", e);
+    }
+
+    socket.on("message", function (mes) {
+        console.log(mes)
+        $("#frmbody").show();
+    });
+    socket.on("success", function (mes) {
+        alert(mes);
+        $("#frmregister").hide();
+        $("#frmbody").show();
+    });
+    socket.on("broadcast", function (mes) {
+        $("#list").empty();
+        $.each(mes, function (k, v) {
+            let use = `   <a  onclick="getid(this.id)" id="${v}" class="list-group-item list-group-item-action"
+                  >${v}</a
+                >`;
+            $("#list").append(use);
+        });
+    });
+    socket.on("Fail", function (mes) {
+        alert(mes);
+    });
+    socket.on("SEND_MESSAGE", function (mes) {
+        $("#frbody").append(`<p> ${mes} </p>`);
+    });
+    $(document).ready(function () {
+        //   $("#frmbody").hide();
+
+        socket.on("success", function (mes) {
+            alert(mes);
+
+        });
+
+
+        socket.on("success", function (mes) {
+            alert(mes);
+
+        });
+
+        socket.emit("join-room", Room = { msv: 1, box: 1 });
+
+        socket.on("get-new-message", function (mes) {
+            console.log(mes)
+            $("#frmbody").show();
+        });
+        $("#btnsend").click(function () {
+            socket.emit("SEND_MESSAGE", $("#txtsend").val());
+        });
+
+        $("#btnregister").click(function () {
+            socket.emit(
+                "Register",
+                $("#txttdn").val() + "/" + $("#txtpass").val()
+            );
+        });
+    });
+</script>
+
+<script>
+    var input = document.getElementsByTagName("textarea")[0];
+    input.addEventListener('paste', pasteHandler);
+    var whatever = document.getElementById('whatever');
+    /*Handle paste event*/
+    function pasteHandler(e) {    //e:  ClipboardEvent
+        //check if event.clipboardData is supported(chrome)
+        if (e.clipboardData) {
+            var items = e.clipboardData.items;
+            if (items) {
+                for (var i = 0; i < items.length; i++) {
+                    //                    console.log(items[i]);
+                    if (items[i].kind == 'file' && items[i].type.indexOf('image') > -1) {
+                        //need to represent the image as a file
+                        var blob = items[i].getAsFile();
+
+                        var reader = new FileReader();
+                        //need base64 to upload to server
+                        reader.readAsDataURL(blob);
+                        reader.onload = function (event) {
+                            var image = new Image();
+                            image.src = event.target.result;
+                            image.width = 50; // a fake resize
+                            whatever.appendChild(image);
+                            // uploadFile(blob);
+                        };
+                    }
+                }
+            }
+        }
+    };
+
+    var uploadFile = function (file) {
+        var formData = new FormData();
+        formData.append('upload_file', file);
+
+        // now post a new XHR request
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/upload/attachments');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    console.log('uploaded done!');
+                } else {
+                    alert("error: " + xhr.responseText); // handle response.
+                }
+            }
+        };
+
+        xhr.send(formData);
+    };
+</script>
