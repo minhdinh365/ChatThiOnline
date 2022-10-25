@@ -5,6 +5,8 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import ChatThiOnline from "./router/ChatThiOnline.js";
+import path from 'path';
+
 
 dotenv.config();
 const app = express();
@@ -35,15 +37,37 @@ mongoose
     });
 
     io.on("connection", (socket) => {
+
       socket.on("add-new-message", (message) => {
+        console.log("vào")
         io.emit("get-new-message", message);
       });
 
-      socket.on("disconnect", () => {});
+      socket.on("disconnect", () => { });
     });
   })
   .catch((err) => {
     console.log("error", err);
   });
+// Without middleware
+app.get('/Home', function (req, res) {
+  var options = {
+    root: path.resolve(path.dirname(''))
+  };
+
+  console.log(path.resolve())
+  var fileName = 'src/index.html';
+
+  res.sendFile(fileName, options, function (err) {
+    if (err) {
+      console.log(err)
+      // next(err);
+    } else {
+      console.log('Sent:', fileName);
+    }
+  });
+});
 
 app.use("/", ChatThiOnline);
+
+
