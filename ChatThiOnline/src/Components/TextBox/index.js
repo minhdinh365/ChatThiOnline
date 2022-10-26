@@ -5,7 +5,7 @@ export default function TextArea(props) {
   function sendMessage(event) {
     if (event.key === "Enter") {
       axios
-        .post(`https://chat-box-online.herokuapp.com/`, {
+        .post(`http://localhost:5000/`, {
           noidung: event.target.value,
           nguoidung: props.mssv,
           box: props.box,

@@ -296,7 +296,7 @@
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <div class="area-chat">
-                    <div class="btn-delete-box" onclick="deleteBox()">Xóa Box</div>
+                    <div id="btn-delete-box" class="btn-delete-box" onclick="deleteBox()">Xóa Box</div>
                     <div class="card" id="chat1" style="border-radius: 15px;">
                         <div class="card-header d-flex justify-content-between align-items-center p-3 bg-info text-white border-bottom-0"
                             style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
@@ -325,16 +325,20 @@
 
 </html>
 
-<script src="https://chat-box-online.herokuapp.com/socket.io/socket.io.js"></script>
+<script src="http://localhost:5000/socket.io/socket.io.js"></script>
 
 <script>
 
 
-    const socket = io("https://chat-box-online.herokuapp.com/");
+    const socket = io("http://localhost:5000/");
     const searchParams = new URLSearchParams(window.location.search)
     const box = Number(searchParams.get('box'))
     const msv = searchParams.get('mssv');
     let image = '';
+
+    if(!msv.includes("giamthi")) {
+        $("#btn-delete-box").hide()
+    }
 
     $("#header-content").text("CHAT BOX " + box)
     if(msv.includes("giamthi")) {
@@ -356,22 +360,25 @@
 
     function renderMessage(message, msv) {
         var el = document.getElementById("frmMessager")
-        if (message.nguoidung === msv) {
+        if(msv.includes("giamthi")) {
+            msv = "Giám Thị Box " + box;
+            console.log(msv);
+        }
 
+        if (message.nguoidung === msv) {
             $("#frmMessager").append(`
             <div class="d-flex flex-row justify-content-end mb-4">
                 <div class="me-3 content-message-right">
                     <div class="small mb-0" id="content-${message.uid}"></div>
                 </div>
-                <img src="https://i.imgur.com/KAi3pm9.jpg" alt="avatar 1" style="width: 50px; height: 50px;object-fit:cover;border-radius:50%">
+                <img src="https://cdn.vectorstock.com/i/1000x1000/59/88/user-login-or-authenticate-icon-personal-vector-28995988.webp" alt="avatar 1" style="width: 50px; height: 50px;object-fit:cover;border-radius:50%">
             </div>
             `)
             el.scrollTop += 1000;
-
         } else if (message.nguoidung !== msv) {
             $("#frmMessager").append(`
                 <div class="d-flex flex-row justify-content-start mb-4">
-                    <img src="https://i.imgur.com/KAi3pm9.jpg"
+                    <img src="https://cdn.vectorstock.com/i/1000x1000/59/88/user-login-or-authenticate-icon-personal-vector-28995988.webp"
                         alt="avatar 1" style="width: 50px; height: 50px;object-fit:cover;border-radius:50%">
                          <div>
                     <div class=" ms-3 content-message-left">
@@ -384,7 +391,7 @@
             el.scrollTop += 1000;
         }
 
-        $(`#content-${message.uid}`).html(message.noidung + `<p class="message-timespan">26/10/2022 10:30:52</p>`)
+        $(`#content-${message.uid}`).html(message.noidung + `<p class="message-timespan">${new Date(message.time).toLocaleString()}</p>`)
     }
 
     $("#textAreaSend").on('paste', function (e) {

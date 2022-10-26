@@ -22,9 +22,7 @@ export default function HomePage() {
     // my api just has 4 pages 1->4
     if (page < 5) {
       axios
-        .get(
-          `https://chat-box-online.herokuapp.com/${query.boxNumber}?page=${page}`
-        )
+        .get(`http://localhost:5000/${query.boxNumber}?page=${page}`)
         .then((data) => {
           if (!isActive) {
             //if in the fisrt load message

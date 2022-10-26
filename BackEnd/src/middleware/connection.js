@@ -61,9 +61,13 @@ export const mongooseConnection = (app) => {
 
         //Dùng để bắt use gửi tin nhắn xuỗng
         socket.on("add-new-message", async (message) => {
-          const msv = message.msv;
+          let msv = message.msv;
           const box = message.box;
           const messager = message.messager;
+          if (msv.includes("giamthi")) {
+            msv = "Giám Thị Box " + box;
+          }
+
           //Thêm vào bảng tin nhắn nhớ log thòi gian
           const newMessage = await addChat({
             nguoidung: msv,
