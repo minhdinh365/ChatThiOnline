@@ -25,13 +25,11 @@ export const createChat = async (req, res) => {
   }
 };
 
-
 // Luu thông tin user
 export const createInfornation = async (Infornation) => {
   try {
-    const info = await Information.findOne({ uid: Infornation.msv, });
+    const info = await Information.findOne({ uid: Infornation.msv });
     if (!info) {
-      console.log("Không tồn tại")
       const newInformation = new Information({
         image: "https://i.imgur.com/KAi3pm9.jpg",
         uid: Infornation.msv,
@@ -39,10 +37,8 @@ export const createInfornation = async (Infornation) => {
       });
       await newInformation.save();
     }
-
-  } catch (err) {
-  };
-}
+  } catch (err) {}
+};
 
 export const getChatOfBox = async (req, res) => {
   const page = Number(req.query.page);
@@ -63,7 +59,6 @@ export const getChatOfBox = async (req, res) => {
 
 export const getChats = async (box, page) => {
   const date = new Date(Date.now());
-  console.log("vo", date.getYear(), date.getMonth() + 1, date.getDate());
   return await ChatThiOnline.find({
     box: Number(box),
     time: {
@@ -80,23 +75,28 @@ export const getChats = async (box, page) => {
     .sort({ uid: -1 })
     // .skip(PAGINATION * page - PAGINATION)
     // .limit(PAGINATION)
-    .populate({ path: "info", model: Information });
+    .limit(50);
 };
 
 export const addChat = async (message) => {
   try {
     const newChat = new ChatThiOnline({
-      nguoidung: Number(message.nguoidung),
+      nguoidung: message.nguoidung,
       noidung: message.noidung,
       box: Number(message.box),
       time: new Date(new Date().toString()),
     });
 
     return await newChat.save().then(async (data) => {
-      const info = await Information.findOne({ uid: data.nguoidung });
-      return { data: await data._doc, info };
+      return { data: await data._doc };
     });
   } catch (err) {
     return undefined;
   }
+};
+
+export const clearChats = async (box) => {
+  return await ChatThiOnline.deleteMany({ box: box })
+    .then((data) => true)
+    .catch((err) => false);
 };

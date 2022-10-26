@@ -18,10 +18,9 @@ const schema = mongoose.Schema(
       require: true,
     },
     nguoidung: {
-      type: Number,
-      ref: DATABASE_TABLE.INFORMATION,
+      type: String,
+      // ref: DATABASE_TABLE.INFORMATION,
     },
-
 
     noidung: {
       type: String,
@@ -38,13 +37,13 @@ const schema = mongoose.Schema(
   }
 );
 
-// foreign key
-schema.virtual("info", {
-  ref: DATABASE_TABLE.INFORMATION,
-  localField: "nguoidung",
-  foreignField: "uid",
-  justOne: true,
-});
+// // foreign key
+// schema.virtual("info", {
+//   ref: DATABASE_TABLE.INFORMATION,
+//   localField: "nguoidung",
+//   foreignField: "uid",
+//   justOne: true,
+// });
 
 // method will be called when the new chat is created
 schema.pre("save", function (next) {

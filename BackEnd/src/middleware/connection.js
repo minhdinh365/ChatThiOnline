@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 import { Server } from "socket.io";
 import express from "express";
-import { getRoom } from "../controller/Room.js";
 import { RESPONSE_MESSAGE } from "../constants.js";
-import { addChat, getChats, createInfornation } from "../controller/ChatThiOnline.js";
+import {
+  addChat,
+  getChats,
+  createInfornation,
+  clearChats,
+} from "../controller/ChatThiOnline.js";
 
 /**
  * this function is listen and create a new connection to the Mongoose server
@@ -36,56 +40,22 @@ export const mongooseConnection = (app) => {
         //Lây ra phòng chat của User
         socket.on("join-room", async (message) => {
           try {
-            console.log("Sss")
-            const msv = Number(message.msv);
-
+            const msv = message.msv;
             const box = Number(message.box);
             const page = Number(message.page);
 
-            const room = await getRoom(box);
-            if (!room) {
-              io.emit("get-list-message", {
-                room: null,
-                chats: null,
-                msv: msv,
-                message: RESPONSE_MESSAGE.ROOM_INVALID,
-              });
-
-              return;
-            }
-            if (room.maGV == msv) {
-              message.usename = "Giám thị"
-            }
-
-
-            await createInfornation(message)
-
-
-
-
+            await createInfornation(message);
 
             const listMessage = await getChats(box, page);
             listMessage.sort((a, b) => a.uid - b.uid);
-            console.log(listMessage)
             io.emit("get-list-message", {
-              room: room,
               chats: listMessage,
               msv: msv,
+              box: box,
               message: RESPONSE_MESSAGE.SUCCESS,
             });
-            const newMessage = await addChat({
-              nguoidung: msv,
-              box,
-              noidung: "Đã vào phòng",
-            });
-            if (newMessage) {
-              io.emit("get-new-message", newMessage);
-
-              //    return;
-            }
           } catch (error) {
-
-            console.log(error)
+            console.log(error);
           }
         });
 
@@ -110,7 +80,25 @@ export const mongooseConnection = (app) => {
           io.emit("get-new-message", null);
         });
 
-        socket.on("disconnect", () => { });
+        socket.on("clear-message", async (message) => {
+          if (message.msv.includes("giamthi")) {
+            if (await clearChats(message.box)) {
+              socket.emit("clear-message", {
+                msv: message.msv,
+                box: message.box,
+                message: RESPONSE_MESSAGE.SUCCESS,
+              });
+            } else {
+              socket.emit("clear-message", {
+                msv: message.msv,
+                box: message.box,
+                message: RESPONSE_MESSAGE.ERROR,
+              });
+            }
+          }
+        });
+
+        socket.on("disconnect", () => {});
       });
     })
     .catch((err) => {

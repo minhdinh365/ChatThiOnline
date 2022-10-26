@@ -18,7 +18,7 @@ export const AppService = (app) => {
 
 export const ViewService = (app) => {
   // Without middleware
-  app.get("/Home", function (req, res) {
+  app.get("/chat", function (req, res) {
     var options = {
       root: path.resolve(path.dirname("")),
     };

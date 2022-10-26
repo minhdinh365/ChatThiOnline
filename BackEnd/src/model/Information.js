@@ -9,7 +9,7 @@ const schema = mongoose.Schema({
     type: Number,
     unique: true,
     require: true,
-    ref: DATABASE_TABLE.CHAT_THI_ONLINE,
+    // ref: DATABASE_TABLE.CHAT_THI_ONLINE,
   },
   image: {
     type: String,
@@ -21,13 +21,13 @@ const schema = mongoose.Schema({
   },
 });
 
-// foreign key
-schema.virtual("chats", {
-  ref: DATABASE_TABLE.CHAT_THI_ONLINE,
-  localField: "uid",
-  foreignField: "nguoidung",
-  justOne: false,
-});
+// // foreign key
+// schema.virtual("chats", {
+//   ref: DATABASE_TABLE.CHAT_THI_ONLINE,
+//   localField: "uid",
+//   foreignField: "nguoidung",
+//   justOne: false,
+// });
 
 schema.set("toObject", { virtuals: true });
 schema.set("toJSON", { virtuals: true });
