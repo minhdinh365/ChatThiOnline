@@ -25,6 +25,25 @@ export const createChat = async (req, res) => {
   }
 };
 
+
+// Luu thông tin user
+export const createInfornation = async (Infornation) => {
+  try {
+    const info = await Information.findOne({ uid: Infornation.msv, });
+    if (!info) {
+      console.log("Không tồn tại")
+      const newInformation = new Information({
+        image: "https://i.imgur.com/KAi3pm9.jpg",
+        uid: Infornation.msv,
+        fullname: Infornation.usename,
+      });
+      await newInformation.save();
+    }
+
+  } catch (err) {
+  };
+}
+
 export const getChatOfBox = async (req, res) => {
   const page = Number(req.query.page);
   return await ChatThiOnline.find({ box: Number(req.params.box) })

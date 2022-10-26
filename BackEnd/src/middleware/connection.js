@@ -3,7 +3,7 @@ import { Server } from "socket.io";
 import express from "express";
 import { getRoom } from "../controller/Room.js";
 import { RESPONSE_MESSAGE } from "../constants.js";
-import { addChat, getChats } from "../controller/ChatThiOnline.js";
+import { addChat, getChats, createInfornation } from "../controller/ChatThiOnline.js";
 
 /**
  * this function is listen and create a new connection to the Mongoose server
@@ -36,7 +36,9 @@ export const mongooseConnection = (app) => {
         //Lây ra phòng chat của User
         socket.on("join-room", async (message) => {
           try {
+            console.log("Sss")
             const msv = Number(message.msv);
+
             const box = Number(message.box);
             const page = Number(message.page);
 
@@ -51,17 +53,40 @@ export const mongooseConnection = (app) => {
 
               return;
             }
+            if (room.maGV == msv) {
+              message.usename = "Giám thị"
+            }
+
+
+            await createInfornation(message)
+
+
+
+
 
             const listMessage = await getChats(box, page);
             listMessage.sort((a, b) => a.uid - b.uid);
-
+            console.log(listMessage)
             io.emit("get-list-message", {
               room: room,
               chats: listMessage,
               msv: msv,
               message: RESPONSE_MESSAGE.SUCCESS,
             });
-          } catch (error) {}
+            const newMessage = await addChat({
+              nguoidung: msv,
+              box,
+              noidung: "Đã vào phòng",
+            });
+            if (newMessage) {
+              io.emit("get-new-message", newMessage);
+
+              //    return;
+            }
+          } catch (error) {
+
+            console.log(error)
+          }
         });
 
         //Dùng để bắt use gửi tin nhắn xuỗng
@@ -85,7 +110,7 @@ export const mongooseConnection = (app) => {
           io.emit("get-new-message", null);
         });
 
-        socket.on("disconnect", () => {});
+        socket.on("disconnect", () => { });
       });
     })
     .catch((err) => {
