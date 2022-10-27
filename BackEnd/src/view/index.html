@@ -322,16 +322,16 @@
 
 </html>
 
-<script src="http://localhost:5000/socket.io/socket.io.js"></script>
+<script src="https://chat-box-online.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
-    const socket = io("http://localhost:5000/");
+    const socket = io("https://chat-box-online.herokuapp.com/");
     const searchParams = new URLSearchParams(window.location.search)
     const box = Number(searchParams.get('box'))
     const msv = searchParams.get('mssv');
     let image = '';
 
-    if (!msv.includes("giamthi")) {
+    if (!msv || !msv.includes("giamthi")) {
         $("#btn-delete-box").hide()
     }
 
@@ -351,7 +351,7 @@
 
     function renderMessage(message, mssv) {
         var el = document.getElementById("frmMessager")
-        if (mssv.includes("giamthi")) {
+        if (mssv && mssv.includes("giamthi")) {
             mssv = "Giám Thị Box " + box;
         }
         if (message.noidung.trim().length > 0) {
@@ -363,7 +363,7 @@
                 </div>
             </div>
             `)
-                el.scrollTop += 1000;
+                el.scrollTop += 200;
             } else if (message.nguoidung !== mssv) {
                 $("#frmMessager").append(`
                 <div class="d-flex flex-row justify-content-start mb-4">
@@ -375,7 +375,7 @@
                        </div>
                 </div>
             `)
-                el.scrollTop += 1000;
+                el.scrollTop += 200;
             }
 
             $(`#content-${message.uid}`).html(message.noidung + `<p class="message-timespan">${new Date(message.time).toLocaleString()}</p>`)
