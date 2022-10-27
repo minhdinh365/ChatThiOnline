@@ -232,8 +232,9 @@
         }
 
         .person-name {
-            font-size: 13px;
+            font-size: 12px;
             margin-left: 7px;
+            font-weight: bold;
         }
 
         .message-timespan {
@@ -324,8 +325,6 @@
 <script src="http://localhost:5000/socket.io/socket.io.js"></script>
 
 <script>
-
-
     const socket = io("http://localhost:5000/");
     const searchParams = new URLSearchParams(window.location.search)
     const box = Number(searchParams.get('box'))
@@ -337,11 +336,7 @@
     }
 
     $("#header-content").text("CHAT BOX " + box)
-    if (msv.includes("giamthi")) {
-        // show button
 
-        console.log("la giam thi");
-    }
     function handleDelete() {
         image = "";
         $("#whatever").empty()
@@ -354,28 +349,24 @@
         })
     }
 
-    function renderMessage(message, msv) {
+    function renderMessage(message, mssv) {
         var el = document.getElementById("frmMessager")
-        if (msv.includes("giamthi")) {
-            msv = "Giám Thị Box " + box;
-            console.log(msv);
+        if (mssv.includes("giamthi")) {
+            mssv = "Giám Thị Box " + box;
         }
         if (message.noidung.trim().length > 0) {
-            if (message.nguoidung === msv) {
+            if (message.nguoidung === mssv) {
                 $("#frmMessager").append(`
             <div class="d-flex flex-row justify-content-end mb-4">
                 <div class="me-3 content-message-right">
                     <div class="small mb-0" id="content-${message.uid}"></div>
                 </div>
-                <img src="https://cdn.vectorstock.com/i/1000x1000/59/88/user-login-or-authenticate-icon-personal-vector-28995988.webp" alt="avatar 1" style="width: 50px; height: 50px;object-fit:cover;border-radius:50%">
             </div>
             `)
                 el.scrollTop += 1000;
-            } else if (message.nguoidung !== msv) {
+            } else if (message.nguoidung !== mssv) {
                 $("#frmMessager").append(`
                 <div class="d-flex flex-row justify-content-start mb-4">
-                    <img src="https://cdn.vectorstock.com/i/1000x1000/59/88/user-login-or-authenticate-icon-personal-vector-28995988.webp"
-                        alt="avatar 1" style="width: 50px; height: 50px;object-fit:cover;border-radius:50%">
                          <div>
                     <div class=" ms-3 content-message-left">
                          <span class="ml-2 person-name">${message.nguoidung}</span>
@@ -388,9 +379,15 @@
             }
 
             $(`#content-${message.uid}`).html(message.noidung + `<p class="message-timespan">${new Date(message.time).toLocaleString()}</p>`)
+
+            $(`#content-${message.uid}`).click(function(e) {
+                var image = new Image();
+                image.src = $(this).find('img')[0].src;
+
+                var w = window.open("");
+                w.document.write(image.outerHTML);
+            })
         }
-
-
     }
 
     $("#textAreaSend").on('paste', function (e) {
@@ -464,7 +461,10 @@
 
         socket.on("get-list-message", function (mes) {
             if (mes && mes.box && box === mes.box && mes.msv === msv) {
-                mes.chats.map(item => renderMessage(item, msv))
+                $("#frmMessager").html('')
+                mes.chats.map(item => {
+                    renderMessage(item, msv)
+                })
             }
 
             $("#frmbody").show();

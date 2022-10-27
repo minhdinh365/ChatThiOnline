@@ -1,7 +1,6 @@
 export const DATABASE_TABLE = {
   INFORMATION: "Information",
   CHAT_THI_ONLINE: "ChatThiOnline",
-  ROOM: "Room",
 };
 
 export const RESPONSE_MESSAGE = {
@@ -11,3 +10,5 @@ export const RESPONSE_MESSAGE = {
 };
 
 export const PAGINATION = 5;
+
+export const VIEW_LOCATION = "src/view/index.html";

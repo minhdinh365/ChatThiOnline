@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import methodOverride from "method-override";
 import path from "path";
+import { VIEW_LOCATION } from "../constants.js";
 
 /**
  * config for express
@@ -23,12 +24,11 @@ export const ViewService = (app) => {
       root: path.resolve(path.dirname("")),
     };
 
-    var fileName = "src/index.html";
+    var fileName = VIEW_LOCATION;
 
     res.sendFile(fileName, options, function (err) {
       if (err) {
-        console.log(err);
-        // next(err);
+        throw new Error(err.message);
       } else {
         console.info("Sent:", fileName);
       }

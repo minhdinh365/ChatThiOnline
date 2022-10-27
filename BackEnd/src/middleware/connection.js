@@ -2,12 +2,7 @@ import mongoose from "mongoose";
 import { Server } from "socket.io";
 import express from "express";
 import { RESPONSE_MESSAGE } from "../constants.js";
-import {
-  addChat,
-  getChats,
-  createInfornation,
-  clearChats,
-} from "../controller/ChatThiOnline.js";
+import { addChat, getChats, clearChats } from "../controller/ChatThiOnline.js";
 
 /**
  * this function is listen and create a new connection to the Mongoose server
@@ -43,8 +38,6 @@ export const mongooseConnection = (app) => {
             const msv = message.msv;
             const box = Number(message.box);
             const page = Number(message.page);
-
-            await createInfornation(message);
 
             const listMessage = await getChats(box, page);
             listMessage.sort((a, b) => a.uid - b.uid);
